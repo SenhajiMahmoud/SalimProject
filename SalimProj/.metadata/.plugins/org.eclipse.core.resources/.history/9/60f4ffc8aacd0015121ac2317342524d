@@ -12,7 +12,7 @@ public class Mainn {
 	      TextEditor te = (TextEditor) context.getBean("textEditor");
 
 	      te.spellCheck();
-//	      System.out.println("ok");
+	      System.out.println("ok");
 	      
 	}
 

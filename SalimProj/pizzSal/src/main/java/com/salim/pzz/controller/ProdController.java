@@ -23,8 +23,8 @@ public class ProdController {
 	@RequestMapping("/ProduitAjouter")
 	public String ajouterProd(@ModelAttribute Produit p, Model model) {
 		if (service.add(p) > 0) {
-			model.addAttribute("model", p);
-			return "repAjout";
+			model.addAttribute("model", service.list());
+			return "ProduitList";
 		} else {
 			model.addAttribute("model", "Impossible d'ajouter ce produit");
 			return "repError";
@@ -40,7 +40,7 @@ public class ProdController {
 	
 	
 	@RequestMapping("/ProduitList")
-	public ModelAndView listProd(String ref, Model model) {
+	public ModelAndView listProd() {
 			return new ModelAndView("ProduitList", "model", service.list());
 	}
 

@@ -5,7 +5,199 @@
   <link rel="self" href="https://spring.io/blog.atom" />
   <id>http://spring.io/blog.atom</id>
   <icon>https://spring.io/favicon.ico</icon>
-  <updated>2016-02-06T00:07:58Z</updated>
+  <updated>2016-02-07T00:00:00Z</updated>
+  <entry>
+    <title>Orchestrating Work with Activiti and Spring Integration</title>
+    <link rel="alternate" href="https://spring.io/blog/2016/02/07/orchestrating-work-with-activiti-and-spring-integration" />
+    <category term="engineering" label="Engineering" />
+    <author>
+      <name>Josh Long</name>
+    </author>
+    <id>tag:spring.io,2016-02-07:2370</id>
+    <updated>2016-02-07T00:00:00Z</updated>
+    <content type="html">&lt;p&gt;I received an email recently that asked about how to forward control from a wait-state in an Activiti (which is an open-source BPMN2 workflow engine from Alfresco) to a Spring Integration flow and then resume execution of the Activiti workflow process upon completion of some work in Spring Integration.&lt;/p&gt;
+&lt;p&gt;To really appreciate why this is useful goal, we need some background.&lt;/p&gt;&lt;h2&gt;&lt;a href="#what-is-activiti" class="anchor" name="what-is-activiti"&gt;&lt;/a&gt;What is Activiti&lt;/h2&gt;
+&lt;p&gt;Activiti is a &lt;em&gt;business process engine&lt;/em&gt;. It&amp;rsquo;s basically a directed graph of nodes (states) that model the states of a complex business process. It keeps track of the progression of work described in a business process. It describe automatic- and human-based actors in a system. It also supports interrogating the business process engine to ask questions about the process instances underway: how many of them are there, which ones are stalled, etc. Business Process Management Systems (BPMS) offer many advantages, some of which are:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;collaborative processes where humans and services are used to drive towards a larger business requirement (imagine loan approval, legal compliance, document revision, etc)&lt;/li&gt;
+  &lt;li&gt;they support auditing and journaling of important business processes in an organization. This is invaluable in regulatory environments.&lt;/li&gt;
+  &lt;li&gt;a BPM engine is &lt;em&gt;designed&lt;/em&gt; to handle long running process state, this means your domain model no longer needs to be riddled with process-state specific fields like &lt;code&gt;is_enrolled&lt;/code&gt; or &lt;code&gt;reset_password_date&lt;/code&gt;.&lt;/li&gt;
+  &lt;li&gt;ease-of-modeling complex business processes&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This last point merits some focus: a good BPM engine like Activiti supports visually modeling business processes. UML supports visually describing processes using activities (steps) and swimlanes (agents involved in satisfying those steps). UML, of course, is just a modeling tool. It has no runtime semantics. The holy grail of business process management has been to have a modeling notation that could be used by business analysts &lt;em&gt;and&lt;/em&gt; application developers. &lt;a href="https://en.wikipedia.org/wiki/Business_Process_Model_and_Notation"&gt;BPMN 2&lt;/a&gt; is as as close as we&amp;rsquo;ve come towards achieving that goal.&lt;/p&gt;
+&lt;p&gt;Here, for example, is a visual model of a &lt;em&gt;very&lt;/em&gt; simple business process.&lt;/p&gt;
+&lt;img src="https://raw.githubusercontent.com/joshlong/meh/master/bpmn-model.png" width="500"/&gt;
+&lt;p&gt;And here is the standard XML markup that&amp;rsquo;s been created to support that model. This XML has execution semantics, not &lt;em&gt;just&lt;/em&gt; modeling semantics.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint xml"&gt;&amp;lt;?xml version=&amp;quot;1.0&amp;quot; encoding=&amp;quot;UTF-8&amp;quot;?&amp;gt;&#xD;
+&amp;lt;definitions id=&amp;quot;definitions&amp;quot;&#xD;
+             xmlns=&amp;quot;http://www.omg.org/spec/BPMN/20100524/MODEL&amp;quot;&#xD;
+             xmlns:activiti=&amp;quot;http://activiti.org/bpmn&amp;quot;&#xD;
+             typeLanguage=&amp;quot;http://www.w3.org/2001/XMLSchema&amp;quot;&#xD;
+             expressionLanguage=&amp;quot;http://www.w3.org/1999/XPath&amp;quot;&#xD;
+             targetNamespace=&amp;quot;http://www.activiti.org/bpmn2.0&amp;quot;&amp;gt;&#xD;
+&#xD;
+    &amp;lt;process id=&amp;quot;asyncProcess&amp;quot;&amp;gt;&#xD;
+&#xD;
+        &amp;lt;startEvent id=&amp;quot;start&amp;quot;/&amp;gt;&#xD;
+&#xD;
+          &amp;lt;sequenceFlow&#xD;
+            id=&amp;quot;flow1&amp;quot;&#xD;
+            sourceRef=&amp;quot;start&amp;quot;&#xD;
+            targetRef=&amp;quot;sigw&amp;quot;/&amp;gt;&#xD;
+&#xD;
+        &amp;lt;serviceTask &#xD;
+            id=&amp;quot;sigw&amp;quot;&#xD;
+           name=&amp;quot;Delegate to Spring Integration&amp;quot;&#xD;
+           activiti:delegateExpression=&amp;quot;#{gateway}&amp;quot;/&amp;gt;&#xD;
+&#xD;
+           &amp;lt;sequenceFlow&#xD;
+            id=&amp;quot;scriptFlow&amp;quot;&#xD;
+            sourceRef=&amp;quot;sigw&amp;quot;&#xD;
+            targetRef=&amp;quot;confirmMovementTask&amp;quot;/&amp;gt;&#xD;
+&#xD;
+        &amp;lt;scriptTask &#xD;
+            id=&amp;quot;confirmMovementTask&amp;quot;&#xD;
+            name=&amp;quot;Execute script&amp;quot; scriptFormat=&amp;quot;groovy&amp;quot;&amp;gt;&#xD;
+            &amp;lt;script&amp;gt;&#xD;
+                println &amp;#39;Moving on..&amp;#39;&#xD;
+            &amp;lt;/script&amp;gt;&#xD;
+        &amp;lt;/scriptTask&amp;gt;&#xD;
+&#xD;
+          &amp;lt;sequenceFlow&#xD;
+            id=&amp;quot;flow2&amp;quot;&#xD;
+            sourceRef=&amp;quot;confirmMovementTask&amp;quot;&#xD;
+            targetRef=&amp;quot;theEnd&amp;quot;/&amp;gt;&#xD;
+&#xD;
+        &amp;lt;endEvent id=&amp;quot;theEnd&amp;quot;/&amp;gt;&#xD;
+&#xD;
+    &amp;lt;/process&amp;gt;&#xD;
+&#xD;
+&amp;lt;/definitions&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Most analysts won&amp;rsquo;t write this XML by hand. Instead, they&amp;rsquo;ll use a modeling tool like &lt;a href="https://www.alfresco.com/products/business-process-management"&gt;Alfresco&amp;rsquo;s Activiti Cloud&lt;/a&gt;. The XML artifact, however, is round-trippable: it may be annotated by developers and then revised in the modeling tool.&lt;/p&gt;
+&lt;p&gt;On inspection, though, you&amp;rsquo;ll see that most of this isn&amp;rsquo;t very complicated. The process has four states:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code&gt;startEvent&lt;/code&gt;&lt;/strong&gt; - where the process starts&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code&gt;serviceTask&lt;/code&gt;&lt;/strong&gt; - invoke the Spring bean called &lt;code&gt;gateway&lt;/code&gt; to kick off a bit of processing in Spring Integration (more on this later!)&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code&gt;scriptTask&lt;/code&gt;&lt;/strong&gt; - print out a simple confirmational message using Groovy&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;&lt;code&gt;endEvent&lt;/code&gt;&lt;/strong&gt; - done&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The ordering is explicitly spelled out by the various &lt;code&gt;sequenceFlow&lt;/code&gt; elements which connect the nodes.&lt;/p&gt;
+&lt;p&gt;Activiti is a great way to keep track of business process state, but it&amp;rsquo;s not a particularly powerful component model or integration technology. For that we need an integration framework like Spring Integration..&lt;/p&gt;&lt;h2&gt;&lt;a href="#what-is-spring-integration" class="anchor" name="what-is-spring-integration"&gt;&lt;/a&gt;What is Spring Integration&lt;/h2&gt;
+&lt;p&gt;Spring Integration supports the integration of services and data across multiple otherwise incompatible systems. Conceptually, composing an integration flow is similar to composing a pipes-and-filters flow on a UNIX OS with &lt;code&gt;stdin&lt;/code&gt; and &lt;code&gt;stdout&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint"&gt;cat input.txt |  grep ERROR | wc -l &amp;gt; output.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In the example, we take data from a source (the file &lt;code&gt;input.txt&lt;/code&gt;), pipe it to the &lt;code&gt;grep&lt;/code&gt; command to filter the results and keep only the lines that contain the token &lt;code&gt;ERROR&lt;/code&gt;, and then pipe it to the &lt;code&gt;wc&lt;/code&gt; utility which we to count how many lines there are. Finally, the final count is written to an output file, &lt;code&gt;output.txt&lt;/code&gt;. These components - &lt;code&gt;cat&lt;/code&gt;, &lt;code&gt;grep&lt;/code&gt;, and &lt;code&gt;wc&lt;/code&gt; - know nothing of each other. They were not designed with each other in mind. Instead, they know only how to read from &lt;code&gt;stdin&lt;/code&gt; and write to &lt;code&gt;stdout&lt;/code&gt;. This normalization of data makes it very easy to compose complex solutions from simple atoms. In the example, the act of &lt;code&gt;cat&lt;/code&gt;ing a file turns data into data that any process aware of &lt;code&gt;stdin&lt;/code&gt; can read. It &lt;em&gt;adapts&lt;/em&gt; the inbound data into the normalized format, lines of strings. At the end, the redirect (&lt;code&gt;&amp;gt;&lt;/code&gt;) operator turns the normalized data, lines of strings, into data on the file system. It &lt;em&gt;adapts&lt;/em&gt; it. The pipe (&lt;code&gt;|&lt;/code&gt;) character is used to signal that the output of one component should flow to the input of another.&lt;/p&gt;
+&lt;p&gt;A Spring Integration flow works the same way: data is normalized into &lt;code&gt;Message&amp;lt;T&amp;gt;&lt;/code&gt; instances. Each &lt;code&gt;Message&amp;lt;T&amp;gt;&lt;/code&gt; has a payload and headers - metadata about the payload in a &lt;code&gt;Map&amp;lt;K,V&amp;gt;&lt;/code&gt; - that are the input and output of different messaging components. These messaging components are typically provided by Spring Integration, but it&amp;rsquo;s easy to write and use your own. There are all manner of messaging components supporting all of the &lt;a href="http://www.enterpriseintegrationpatterns.com/"&gt;the Enterprise Application Integration patterns&lt;/a&gt; (filters, routers, transformers, adapters, gateways, etc.). The Spring framework &lt;code&gt;MessageChannel&lt;/code&gt; is a named conduit through which &lt;code&gt;Message&amp;lt;T&amp;gt;&lt;/code&gt;s flow between messaging components. They&amp;rsquo;re pipes and, by default, they work sort of like a &lt;code&gt;java.util.Queue&lt;/code&gt;. Data in, data out.&lt;/p&gt;
+&lt;p&gt;Spring Integration inbound adapters &lt;em&gt;adapt&lt;/em&gt; data from external systems (message queues like RabbitMQ, Apache Kafka, and JMS, email, Twitter, file system mounts, IoT-devices, and a zillion other systems) into &lt;code&gt;Message&amp;lt;T&amp;gt;&lt;/code&gt;s. Spring Integration outbound adapters do the same, in reverse, taking &lt;code&gt;Message&amp;lt;T&amp;gt;&lt;/code&gt;s and writing them to an external system (for example, as an e-mail, or a Tweet, or an Apache Kafka message).&lt;/p&gt;
+&lt;p&gt;Spring Integration supports &lt;em&gt;event-driven architectures&lt;/em&gt; because it can help detect and then respond to events in the external world. For example, you can use Spring Integration to poll a filesystem every 10 seconds and publish a &lt;code&gt;Message&amp;lt;T&amp;gt;&lt;/code&gt; whenever a new file appears. You can use Spring Integration to act as a listener to messages delivered to a Apache Kafka topic. The adapter handles responding to the external event and frees you from worrying too much about originating the message and lets you focus on handling the message once it arrives. It&amp;rsquo;s the integration equivalent of dependency injection! &lt;/p&gt;
+&lt;p&gt;Dependency injection leaves component code free of worries about resource initialization and acquisition and leaves it free to focus on writing code with those dependencies. Where did the &lt;code&gt;javax.sql.DataSource&lt;/code&gt; field come from? Who cares! Spring wired it in, and it may have gotten it from a Mock in a test, from JNDI in a classic application server, or from a configured Spring Boot bean. Component code remains ignorant of those details. ~15 years ago, when we first started talking about dependency injection, we would talk about the &amp;ldquo;Hollywood principal:&amp;rdquo; &amp;ldquo;don&amp;rsquo;t call me, I&amp;rsquo;ll call you!&amp;rdquo; This applies even more to Spring Integration!&lt;/p&gt;
+&lt;p&gt;Inbound gateways take incoming requests from external systems, process them as &lt;code&gt;Message&amp;lt;T&amp;gt;&lt;/code&gt;s, and send a reply. Outbound gateways take &lt;code&gt;Message&amp;lt;T&amp;gt;&lt;/code&gt;s, forward them to an external system, and await the response from that system. They support request and reply interactions.&lt;/p&gt;&lt;h2&gt;&lt;a href="#an-activiti-and-spring-integration-gateway" class="anchor" name="an-activiti-and-spring-integration-gateway"&gt;&lt;/a&gt;An Activiti and Spring Integration Gateway&lt;/h2&gt;
+&lt;p&gt;Activiti can be used to describe a complex, long-running process in terms of recorded, auditable, and predictable states, and Spring Integration can be used to, well, &lt;em&gt;integrate&lt;/em&gt;! Spring Integration is where we keep the interesting Java code, and Activiti keeps track of the overarching state. This trick was useful 20 years ago and it&amp;rsquo;s useful today in the massively distributed world of microservices, too, where processing for a single request may span multiple services and nodes. It&amp;rsquo;s convenient, then, &lt;a href="https://spring.io/blog/2015/03/08/getting-started-with-activiti-and-spring-boot"&gt;that Spring Boot, Spring Integration and Activiti work so well together&lt;/a&gt;!&lt;/p&gt;
+&lt;p&gt;One common use case is to initiate a BPM process with Activiti and then, on entering a wait-state, delegate handling of that state to Spring Integration which can, of course, spread the work to other systems. Here&amp;rsquo;s a simple diagram illustrating the flow.&lt;/p&gt;
+&lt;img src="https://raw.githubusercontent.com/joshlong/meh/master/activiti-and-si-interaction.jpg" width="500"/&gt;
+&lt;p&gt;BPM process states can often involve human agents. For example, a workflow engine may have a state where a document is sent to a human for approval, but the reviewer is on vacation and won&amp;rsquo;t be back for weeks. It would be wasteful, not to mention dangerous, to keep a thread open with the expectation that whatever confirmation is needed to continue processing will come back within milliseconds or seconds.&lt;/p&gt;
+&lt;p&gt;Activiti is smart enough to pause execution, persist execution state to a database during a wait-state, and only resume upon having the process execution &lt;em&gt;signaled&lt;/em&gt;. Signalling the process engine rehydrates the process and resumes execution. A simple example might be a new user enrollment business process that delegates to Spring Integration to send an email with a sign up confirmation link. It may take days for the user to click the confirmation link, but on clicking, the system should proceed with the enrollment business process.&lt;/p&gt;
+&lt;p&gt;In this post we&amp;rsquo;re going to look at how to initiate a BPM process that enters a wait-state and then delegates to Spring Integration to do some kind of custom processing and then, in the far flung future, resumes execution of the process.&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;ll setup two Spring Integration flows: one to handle requests from Activiti into Spring Integration and another that handles eventual replies and triggers the resumption of the process.&lt;/p&gt;
+&lt;p&gt;We&amp;rsquo;ll need something to kick off our process, so here&amp;rsquo;s a simple REST endpoint (&lt;code&gt;http://localhost:8080/start&lt;/code&gt;) that launches a new process each time:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;@RestController&#xD;
+class ProcessStartingRestController {&#xD;
+&#xD;
+ @Autowired&#xD;
+ private ProcessEngine processEngine;&#xD;
+&#xD;
+ @RequestMapping(method = RequestMethod.GET, value = &amp;quot;/start&amp;quot;)&#xD;
+ Map&amp;lt;String, String&amp;gt; launch() {&#xD;
+  ProcessInstance asyncProcess = this.processEngine.getRuntimeService()&#xD;
+    .startProcessInstanceByKey(&amp;quot;asyncProcess&amp;quot;);&#xD;
+  return Collections.singletonMap(&amp;quot;executionId&amp;quot;, asyncProcess.getId());&#xD;
+ }&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Messages will flow across two &lt;code&gt;MesssageChannel&lt;/code&gt;s that we&amp;rsquo;ll create in a &lt;code&gt;@Configuration&lt;/code&gt; class: &lt;code&gt;requests&lt;/code&gt; and &lt;code&gt;replies&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;@Configuration&#xD;
+class MessageChannels {&#xD;
+&#xD;
+ @Bean&#xD;
+ DirectChannel requests() {&#xD;
+  return new DirectChannel();&#xD;
+ }&#xD;
+&#xD;
+ @Bean&#xD;
+ DirectChannel replies() {&#xD;
+  return new DirectChannel();&#xD;
+ }&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The nice thing about using a &lt;code&gt;@Configuration&lt;/code&gt; class is that it is itself a Spring component and can be injected anywhere. We can dereference the channels by invoking the &lt;code&gt;@Bean&lt;/code&gt; provider methods directly. The alternative is to use &lt;code&gt;@Qualifier&lt;/code&gt; everytime we inject a reference to one of the channels, e.g.:&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;&lt;br/&gt;public static final String REPLIES_CHANNEL_NAME = &amp;quot;replies&amp;quot;;&#xD;
+&#xD;
+@Autowired&#xD;
+@Qualifier(REPLIES_CHANNEL_NAME)&#xD;
+private MessageChannel replies;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Our BPMN is pretty straightforward, but we&amp;rsquo;ll use an Activiti-specific namespace attribute, &lt;code&gt;activiti:delegateExpression=&amp;quot;#{gateway}&amp;quot;&lt;/code&gt;, to tell Activiti to call a bean named &lt;code&gt;gateway&lt;/code&gt; that&amp;rsquo;s registered in Spring. Activiti knows to do this because this application uses the Activiti auto-configuration for Spring Boot which, among many other things, exposes Spring-managed beans to the Activiti expression-language. The &lt;code&gt;gateway&lt;/code&gt; is an Activiti-based bean of type &lt;code&gt;ReceiveTaskActivityBehavior&lt;/code&gt;. Spring Boot has auto-configurations for both Spring Integration and Activiti so 90% of the tedious setup goes out the window.&lt;/p&gt;
+&lt;p&gt;Let&amp;rsquo;s look at our simple &lt;code&gt;gateway&lt;/code&gt; component, an implementation of Activiti&amp;rsquo;s &lt;code&gt;ActivityBehavior&lt;/code&gt; interface that acts as a callback where we can send a &lt;code&gt;Message&amp;lt;T&amp;gt;&lt;/code&gt; into the &lt;code&gt;requests&lt;/code&gt; channel and kick off our Spring Integration flow. The important thing here is that we&amp;rsquo;ve captured the &lt;code&gt;executionId&lt;/code&gt; which we&amp;rsquo;ll need later to &lt;em&gt;resume&lt;/em&gt; or &lt;em&gt;signal&lt;/em&gt; the process.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;@Bean&#xD;
+ActivityBehavior gateway(MessageChannels channels) {&#xD;
+  return new ReceiveTaskActivityBehavior() {&#xD;
+&#xD;
+    @Override&#xD;
+    public void execute(ActivityExecution execution) throws Exception {&#xD;
+&#xD;
+      Message&amp;lt;?&amp;gt; executionMessage = MessageBuilder&#xD;
+          .withPayload(execution)&#xD;
+          .setHeader(&amp;quot;executionId&amp;quot;, execution.getId())&#xD;
+          .build();&#xD;
+&#xD;
+      channels.requests().send(executionMessage);&#xD;
+    }&#xD;
+  };&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The &lt;code&gt;Message&amp;lt;T&amp;gt;&lt;/code&gt; will pop out the other side of the &lt;code&gt;requests&lt;/code&gt; &lt;code&gt;MessageChannel&lt;/code&gt; and something needs to process it. In a sophisticated example, it&amp;rsquo;d be trivial to transform the request into a meaningful message and then, for example, forward it to some other system like e-mail. Here, we just print out the headers so that we can note the &lt;code&gt;executionId&lt;/code&gt; and use that later.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;@Bean&#xD;
+IntegrationFlow requestsFlow(MessageChannels channels) {&#xD;
+ return IntegrationFlows.from(channels.requests())&#xD;
+   .handle(msg -&amp;gt; msg.getHeaders().entrySet()&#xD;
+     .forEach(e -&amp;gt; log.info(e.getKey() + &amp;#39;=&amp;#39; + e.getValue())))&#xD;
+   .get();&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;At this point, the workflow definition will have been persisted and there is no active process instance. We need to signal it, somehow, asynchronously. We&amp;rsquo;ll do so using a REST endpoint, &lt;code&gt;http://localhost:8080/resume/{executionId}&lt;/code&gt;. REST is easy to grok, but really we could&amp;rsquo;ve used any event from any external system that Spring Integration knows about to achieve this effect. The only thing to ensure is that, whatever the external event, we&amp;rsquo;re somehow able to send the &lt;code&gt;executionId&lt;/code&gt; along, as we do here by capturing it in the URI.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;&lt;br/&gt;@RestController&#xD;
+class ProcessResumingRestController {&#xD;
+&#xD;
+ @Autowired&#xD;
+ private MessageChannels messageChannels;&#xD;
+&#xD;
+ @RequestMapping(method = RequestMethod.GET, value = &amp;quot;/resume/{executionId}&amp;quot;)&#xD;
+ void resume(@PathVariable String executionId) {&#xD;
+&#xD;
+  Message&amp;lt;String&amp;gt; build = MessageBuilder.withPayload(executionId)&#xD;
+    .setHeader(&amp;quot;executionId&amp;quot;, executionId)&#xD;
+    .build();&#xD;
+&#xD;
+  this.messageChannels.replies().send(build);&#xD;
+ }&#xD;
+}&#xD;
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;When the &lt;code&gt;Message&amp;lt;T&amp;gt;&lt;/code&gt; flows through the &lt;code&gt;replies&lt;/code&gt; &lt;code&gt;MessageChannel&lt;/code&gt;, it&amp;rsquo;ll pop out the other end and, again, something needs to process it. Here, we&amp;rsquo;ll use another Spring Integration flow that takes the incoming &lt;code&gt;Message&amp;lt;T&amp;gt;&lt;/code&gt; and signals the resumption of the process. Once this flow is executed, you&amp;rsquo;ll see the next step in the process, the &lt;code&gt;scriptTask&lt;/code&gt;, evaluated and the words &amp;ldquo;Moving on!&amp;rdquo; printed to the console.&lt;/p&gt;
+&lt;pre&gt;&lt;code class="prettyprint java"&gt;@Bean&#xD;
+IntegrationFlow repliesFlow(MessageChannels channels,&#xD;
+       ProcessEngine engine) {&#xD;
+ return IntegrationFlows.from(channels.replies())&#xD;
+   .handle(msg -&amp;gt; engine.getRuntimeService().signal(&#xD;
+     String.class.cast(msg.getHeaders().get(&amp;quot;executionId&amp;quot;))))&#xD;
+   .get();&#xD;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;h2&gt;&lt;a href="#next-steps" class="anchor" name="next-steps"&gt;&lt;/a&gt;Next Steps&lt;/h2&gt;
+&lt;p&gt;We&amp;rsquo;ve covered a lot! We&amp;rsquo;re involving &lt;em&gt;both&lt;/em&gt; a BPM engine and an integration framework to handle processing, and I appreciate that the correct use of the intersection of the two is kind of a niche topic. The goal in this post was to effectively use both, where applicable, to the fullest. BPM adds a fair amount of &lt;a href="https://en.wikipedia.org/wiki/Cognitive_load"&gt;&lt;em&gt;cognitive load&lt;/em&gt;&lt;/a&gt; for simple integrations but offers a &lt;em&gt;lot&lt;/em&gt; of value when business process descriptions must be model- and business analyst-friendly. One common misconception is that developers have to give up the ability to enhance the system once BPM is involved; NOT SO! Thanks to Spring Boot and some hard work from the Activiti team, Activiti works perfectly with all of Spring.&lt;/p&gt;
+&lt;p&gt;The real power is using BPM to orchestrate complex processing logic: imagine hitting a state in a BPM process and then invoking a Spring Batch job, or calling a REST service with a Ribbon load-balanced &lt;code&gt;RestTemplate&lt;/code&gt; in Spring Cloud, or forwarding the &lt;code&gt;Message&amp;lt;T&amp;gt;&lt;/code&gt; into a Spring Cloud Data Flow stream process. Spring Cloud Data Flow is one of my favorite approaches to data processing because it builds on Spring Cloud Stream which in turn builds on Spring Integration: it&amp;rsquo;s &lt;code&gt;MessageChannel&lt;/code&gt;s all the way down!&lt;/p&gt;
+&lt;p&gt;The code for &lt;a href="https://github.com/joshlong/activiti-examples/tree/master/async-activiti-integration"&gt;the example is online&lt;/a&gt;. &lt;/p&gt;</content>
+  </entry>
   <entry>
     <title>Spring Cloud Stream 1.0.0.M4 is now available</title>
     <link rel="alternate" href="https://spring.io/blog/2016/02/06/spring-cloud-stream-1-0-0-m4-is-now-available" />
@@ -444,29 +636,5 @@ We will cover recent additions and improvements in Spring Data Commons - the mod
     <id>tag:spring.io,2016-01-18:2350</id>
     <updated>2016-01-18T12:18:00Z</updated>
     <content type="html">&lt;p&gt;Recorded at SpringOne2GX 2015&lt;br/&gt;Presenter: Mark Pollack&lt;br/&gt;Big Data Track&lt;br/&gt;Slides: &lt;a href="http://www.slideshare.net/SpringCentral/spring-xd-today-and-tomorrow"&gt;http://www.slideshare.net/SpringCentral/spring-xd-today-and-tomorrow&lt;/a&gt;&lt;br/&gt;In this talk we will cover the major new features added to Spring XD since last year as well as upcoming changes for the next major version. Key integrations driven by the Big Data ecosystem at large such as Kafka, Spark, functional programming, integration with Python, and designer/monitoring UIs will be introduced and demonstrated. The next major version of XD will shift to a foundation based on Cloud-Native architectural principles, where each individual module will be a standalone executable message-based microservice application based on Spring Boot. This allows us to more easily take advantage of Spring Boot and Spring Cloud functionality as well as map more natively onto runtime environments such as YARN, Lattice and Cloud Foundry.&lt;br/&gt;&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/NIBYST0z3sg" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;&lt;/p&gt;</content>
-  </entry>
-  <entry>
-    <title>This Week in Spring - January 12th, 2016</title>
-    <link rel="alternate" href="https://spring.io/blog/2016/01/13/this-week-in-spring-january-12th-2016" />
-    <category term="engineering" label="Engineering" />
-    <author>
-      <name>Josh Long</name>
-    </author>
-    <id>tag:spring.io,2016-01-13:2349</id>
-    <updated>2016-01-13T06:31:59Z</updated>
-    <content type="html">&lt;p&gt;Welcome to another installation of &lt;em&gt;This Week in Spring!&lt;/em&gt; Today, I spoke at the &lt;a href="http://www.meetup.com/sfjava/events/225481175/"&gt;San Francisco JUG&lt;/a&gt; to a packed room and now I&amp;rsquo;m off to St. Louis for a day of customer meetings. Lots of great stuff to look at as we kick off the new year so let&amp;rsquo;s get to it!&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Check out Spring Integration contributor &lt;a href="https://spring.io/blog/2016/01/12/spring-integration-zip-1-0-0-m1-and-others"&gt;Artem Bilan&amp;rsquo;s post on the latest-and-greatest on Spring Integration&lt;/a&gt; including the debut of a new Spring Integration extension supporting zipping and unzipping of messages in flight.&lt;/li&gt;
-  &lt;li&gt;the EuregJUG Maas-Rhine published &lt;a href="http://www.euregjug.eu/2016/01/07/new-site-is-live"&gt;a post on its site about.. the site! Which is all Spring Boot&lt;/a&gt;. Check it out.&lt;/li&gt;
-  &lt;li&gt;Check out the replay of Andy Wilkinson&amp;rsquo;s SpringOne2GX 2015 &lt;a href="https://spring.io/blog/2016/01/12/springone2gx-2015-replay-documenting-restful-apis"&gt;talk on documenting REST APIs with Spring REST Docs&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Check out the replay of Fatima Casau&amp;rsquo;s &lt;a href="https://spring.io/blog/2016/01/12/springone2gx-2015-replay-spring-boot-and-groovy"&gt;SpringOne2GX 2015 talk on using Spring Boot and Groovy&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Marius Bogoevici&amp;rsquo;s SpringOne2GX 2015 talk on stream processing &lt;a href="https://spring.io/blog/2016/01/12/springone2gx-2015-replay-stream-processing-at-scale-with-spring-xd-and-kafka"&gt;at scale with Spring XD and Apache Kafka is also now available&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Spring Security lead Rob Winch&amp;rsquo;s SpringOne2GX 2015 &lt;a href="https://spring.io/blog/2016/01/12/springone2gx-2015-replay-the-state-of-securing-restful-apis-with-spring"&gt;talk on securing REST services with Spring is also available online&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Spring framework legend and &lt;a href="https://spring.io/blog/2016/01/11/european-conferences-with-strong-spring-content"&gt;lead Juergen Hoeller chimed in to talk about some great Java conferences of interest in the next few months&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Check out Dr. David Syer&amp;rsquo;s &lt;a href="https://spring.io/guides/tutorials/spring-boot-oauth2/"&gt;definitive guide to using Spring Security OAuth and Spring Boot&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;and then follow it up with Malike&amp;rsquo;s post on &lt;a href="http://malike.github.io/Spring-Security-OAuth2/"&gt;using Spring Security OAuth and MongoDB to secure applications&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;I&amp;rsquo;m pretty sure I posted these before, but they&amp;rsquo;re worth reiteration: &lt;a href="http://www.infoq.com/news/2015/12/microservices-amazon"&gt;how Amazon uses Microservices&lt;/a&gt; and &lt;a href="https://dzone.com/articles/the-power-patterns-and-pains-of-microservices"&gt;the Pain, Power, and Patterns of Microservices&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;Red Hat&amp;rsquo;s Christian Posta just published a blog that talks about a potential 25x &lt;a href="http://blog.christianposta.com/activemq/speeding-up-activemq-persistent-messaging-performance-by-25x/"&gt;performance increase for certain use cases with ActiveMQ&lt;/a&gt; - definitely worth a read!&lt;/li&gt;
-&lt;/ul&gt;</content>
   </entry>
 </feed>

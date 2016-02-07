@@ -1555,6 +1555,16 @@ Caused by: org.eclipse.core.runtime.CoreException: One or more constraints have 
 2016-02-07 14:24:43,502 [Worker-100] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
 2016-02-07 14:24:43,511 [Worker-100] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
 2016-02-07 14:24:43,515 [Worker-100] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Mahmoud\Desktop\Salim_Pizz\SalimProj\pizzSal\src\test\resources
+<<<<<<< HEAD
+2016-02-07 15:50:03,634 [Worker-20] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: com.salim.pizzeria:pizzSal:0.0.1-SNAPSHOT @ C:\Users\Mahmoud\Desktop\Salim_Pizz\SalimProj\pizzSal\pom.xml.
+2016-02-07 15:50:09,536 [Worker-20] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-02-07 15:50:09,561 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2016-02-07 15:50:09,616 [Worker-20] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-02-07 15:50:09,622 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Mahmoud\Desktop\Salim_Pizz\SalimProj\pizzSal\src\test\resources
+2016-02-07 15:50:09,638 [Worker-20] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Changed resources require a complete clean of filtered resources of pizzSal
+2016-02-07 15:50:09,641 [Worker-20] INFO  o.e.m.w.i.f.ResourceFilteringBuildParticipant - Executing resource filtering for pizzSal
+2016-02-07 15:50:09,661 [Worker-20] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+=======
 2016-02-07 15:54:39,506 [Worker-10] INFO  o.e.m.c.i.l.LifecycleMappingFactory - Using org.maven.ide.eclipse.wtp.WarLifecycleMapping lifecycle mapping for MavenProject: com.salim.pizzeria:pizzSal:0.0.1-SNAPSHOT @ C:\Users\Mahmoud\Desktop\Salim_Pizz\SalimProj\pizzSal\pom.xml.
 2016-02-07 15:54:44,279 [Worker-10] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
 2016-02-07 15:54:44,315 [Worker-10] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
@@ -1571,3 +1581,32 @@ Caused by: org.eclipse.core.runtime.CoreException: One or more constraints have 
 2016-02-07 15:55:11,277 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
 2016-02-07 15:55:11,285 [Worker-20] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
 2016-02-07 15:55:11,290 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Mahmoud\Desktop\Salim_Pizz\SalimProj\pizzSal\src\test\resources
+>>>>>>> mahmoud
+2016-02-07 22:56:34,054 [Worker-20] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-02-07 22:56:34,115 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2016-02-07 22:56:34,153 [Worker-20] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-02-07 22:56:34,157 [Worker-20] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Mahmoud\Desktop\Salim_Pizz\SalimProj\pizzSal\src\test\resources
+2016-02-07 22:56:43,749 [Worker-22] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-02-07 22:56:43,776 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2016-02-07 22:56:43,783 [Worker-22] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-02-07 22:56:43,790 [Worker-22] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Mahmoud\Desktop\Salim_Pizz\SalimProj\pizzSal\src\test\resources
+2016-02-07 23:00:35,675 [Worker-5] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-02-07 23:00:35,708 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2016-02-07 23:00:35,722 [Worker-5] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-02-07 23:00:35,727 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Mahmoud\Desktop\Salim_Pizz\SalimProj\pizzSal\src\test\resources
+2016-02-07 23:00:57,951 [Worker-5] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-02-07 23:00:57,960 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2016-02-07 23:00:57,968 [Worker-5] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-02-07 23:00:57,971 [Worker-5] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Mahmoud\Desktop\Salim_Pizz\SalimProj\pizzSal\src\test\resources
+2016-02-07 23:01:36,855 [Worker-17] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-02-07 23:01:36,862 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2016-02-07 23:01:36,868 [Worker-17] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-02-07 23:01:36,878 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Mahmoud\Desktop\Salim_Pizz\SalimProj\pizzSal\src\test\resources
+2016-02-07 23:01:52,180 [Worker-17] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-02-07 23:01:52,188 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2016-02-07 23:01:52,207 [Worker-17] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-02-07 23:01:52,210 [Worker-17] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Mahmoud\Desktop\Salim_Pizz\SalimProj\pizzSal\src\test\resources
+2016-02-07 23:03:13,840 [Worker-6] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-02-07 23:03:13,859 [Worker-6] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2016-02-07 23:03:13,868 [Worker-6] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
+2016-02-07 23:03:13,875 [Worker-6] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Mahmoud\Desktop\Salim_Pizz\SalimProj\pizzSal\src\test\resources

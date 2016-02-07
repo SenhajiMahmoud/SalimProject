@@ -1,0 +1,33 @@
+package com.salim.web.business;
+
+import java.util.HashMap;
+import java.util.List;
+
+import models.Produit;
+
+public class DefaultProduitService implements ProduitService{
+
+	HashMap<String, Produit> map;
+	
+	public DefaultProduitService() {
+		map = new HashMap<String, Produit>();
+	}
+	
+	public int add(Produit p) {
+		
+		return 0;
+	}
+
+	public Produit get(String ref) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<Produit> list() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	
+	
+}

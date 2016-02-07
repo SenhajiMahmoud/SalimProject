@@ -1,0 +1,16 @@
+package com.salim.pzz.controller;
+
+import org.springframework.stereotype.Controller;
+
+@Controller
+public class ProdController {
+	
+	public ProdController() {}
+	
+	
+	public String ajouterProd(){
+		
+	}
+	
+	
+}

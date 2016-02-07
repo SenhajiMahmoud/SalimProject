@@ -1,0 +1,23 @@
+package com.salim.pzz.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import models.Produit;
+
+@Controller
+public class ProdController {
+	
+	public ProdController() {}
+	
+	@RequestMapping("/ProduitAjouter")
+	public String ajouterProd(@ModelAttribute Produit p, Model model){
+		
+		
+		return "repAjout.jsp";
+	}
+	
+	
+}

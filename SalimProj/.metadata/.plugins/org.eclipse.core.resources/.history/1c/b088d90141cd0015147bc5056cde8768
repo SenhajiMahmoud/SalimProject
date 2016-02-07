@@ -1,0 +1,5 @@
+package com.salim.web.business;
+
+public class DefaultProduitService {
+
+}

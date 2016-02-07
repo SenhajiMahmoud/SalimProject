@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>Test</h1>
+	
+	<form action="/a01.do">
+		<h2>Methode action1</h2>
+		
+		<button>view</button>
+	</form>
+</body>
+</html>

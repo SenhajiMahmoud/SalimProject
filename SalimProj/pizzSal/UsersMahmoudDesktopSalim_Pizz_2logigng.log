@@ -1,0 +1,72 @@
+2016-02-08 17:23:39 INFO  Version:37 - HHH000412: Hibernate Core {5.0.7.Final}
+2016-02-08 17:23:39 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2016-02-08 17:23:39 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2016-02-08 17:23:40 WARN  deprecation:91 - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+2016-02-08 17:23:40 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2016-02-08 17:23:40 WARN  deprecation:75 - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+2016-02-08 17:23:44 WARN  connections:71 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2016-02-08 17:23:44 INFO  connections:127 - HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/GEST_BD_Personne]
+2016-02-08 17:23:44 INFO  connections:136 - HHH10001001: Connection properties: {user=postgres, password=****}
+2016-02-08 17:23:44 INFO  connections:141 - HHH10001003: Autocommit mode: false
+2016-02-08 17:23:44 INFO  DriverManagerConnectionProviderImpl:39 - HHH000115: Hibernate connection pool size: 1 (min=1)
+2016-02-08 17:23:44 INFO  Dialect:156 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2016-02-08 17:23:45 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2016-02-08 17:23:45 INFO  BasicTypeRegistry:138 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@20270e
+2016-02-08 17:23:45 INFO  EnversServiceImpl:91 - Envers integration enabled? : true
+2016-02-08 17:23:47 INFO  SchemaUpdate:105 - HHH000228: Running hbm2ddl schema update
+2016-02-08 17:23:47 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2016-02-08 17:23:48 INFO  connections:235 - HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/GEST_BD_Personne]
+2016-02-08 17:24:10 INFO  Version:37 - HHH000412: Hibernate Core {5.0.7.Final}
+2016-02-08 17:24:10 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2016-02-08 17:24:10 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2016-02-08 17:24:10 WARN  deprecation:91 - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+2016-02-08 17:24:11 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2016-02-08 17:24:11 WARN  deprecation:75 - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+2016-02-08 17:24:14 WARN  connections:71 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2016-02-08 17:24:14 INFO  connections:127 - HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/GEST_BD_Personne]
+2016-02-08 17:24:14 INFO  connections:136 - HHH10001001: Connection properties: {user=postgres, password=****}
+2016-02-08 17:24:14 INFO  connections:141 - HHH10001003: Autocommit mode: false
+2016-02-08 17:24:14 INFO  DriverManagerConnectionProviderImpl:39 - HHH000115: Hibernate connection pool size: 1 (min=1)
+2016-02-08 17:24:14 INFO  Dialect:156 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2016-02-08 17:24:15 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2016-02-08 17:24:15 INFO  BasicTypeRegistry:138 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@20270e
+2016-02-08 17:24:15 INFO  EnversServiceImpl:91 - Envers integration enabled? : true
+2016-02-08 17:24:18 INFO  SchemaUpdate:105 - HHH000228: Running hbm2ddl schema update
+2016-02-08 17:24:18 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2016-02-08 17:24:19 INFO  connections:235 - HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/GEST_BD_Personne]
+2016-02-08 17:24:58 INFO  Version:37 - HHH000412: Hibernate Core {5.0.7.Final}
+2016-02-08 17:24:58 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2016-02-08 17:24:58 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2016-02-08 17:24:58 WARN  deprecation:91 - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+2016-02-08 17:24:59 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2016-02-08 17:24:59 WARN  deprecation:75 - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+2016-02-08 17:25:02 WARN  connections:71 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2016-02-08 17:25:02 INFO  connections:127 - HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/GEST_BD_Personne]
+2016-02-08 17:25:02 INFO  connections:136 - HHH10001001: Connection properties: {user=postgres, password=****}
+2016-02-08 17:25:02 INFO  connections:141 - HHH10001003: Autocommit mode: false
+2016-02-08 17:25:02 INFO  DriverManagerConnectionProviderImpl:39 - HHH000115: Hibernate connection pool size: 1 (min=1)
+2016-02-08 17:25:02 INFO  Dialect:156 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2016-02-08 17:25:03 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2016-02-08 17:25:03 INFO  BasicTypeRegistry:138 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@20270e
+2016-02-08 17:25:03 INFO  EnversServiceImpl:91 - Envers integration enabled? : true
+2016-02-08 17:25:05 INFO  SchemaUpdate:105 - HHH000228: Running hbm2ddl schema update
+2016-02-08 17:25:05 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2016-02-08 17:25:06 INFO  connections:235 - HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/GEST_BD_Personne]
+2016-02-08 18:51:23 INFO  Version:37 - HHH000412: Hibernate Core {5.0.7.Final}
+2016-02-08 18:51:23 INFO  Environment:213 - HHH000206: hibernate.properties not found
+2016-02-08 18:51:23 INFO  Environment:317 - HHH000021: Bytecode provider name : javassist
+2016-02-08 18:51:23 WARN  deprecation:91 - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-configuration. Use namespace http://www.hibernate.org/dtd/hibernate-configuration instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+2016-02-08 18:51:24 INFO  Version:66 - HCANN000001: Hibernate Commons Annotations {5.0.1.Final}
+2016-02-08 18:51:24 WARN  deprecation:75 - HHH90000012: Recognized obsolete hibernate namespace http://hibernate.sourceforge.net/hibernate-mapping. Use namespace http://www.hibernate.org/dtd/hibernate-mapping instead.  Support for obsolete DTD/XSD namespaces may be removed at any time.
+2016-02-08 18:51:27 WARN  connections:71 - HHH10001002: Using Hibernate built-in connection pool (not for production use!)
+2016-02-08 18:51:27 INFO  connections:127 - HHH10001005: using driver [org.postgresql.Driver] at URL [jdbc:postgresql://localhost:5432/GEST_BD_Personne]
+2016-02-08 18:51:27 INFO  connections:136 - HHH10001001: Connection properties: {user=postgres, password=****}
+2016-02-08 18:51:27 INFO  connections:141 - HHH10001003: Autocommit mode: false
+2016-02-08 18:51:27 INFO  DriverManagerConnectionProviderImpl:39 - HHH000115: Hibernate connection pool size: 1 (min=1)
+2016-02-08 18:51:28 INFO  Dialect:156 - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2016-02-08 18:51:28 INFO  LobCreatorBuilderImpl:124 - HHH000424: Disabling contextual LOB creation as createClob() method threw error : java.lang.reflect.InvocationTargetException
+2016-02-08 18:51:28 INFO  BasicTypeRegistry:138 - HHH000270: Type registration [java.util.UUID] overrides previous : org.hibernate.type.UUIDBinaryType@20270e
+2016-02-08 18:51:28 INFO  EnversServiceImpl:91 - Envers integration enabled? : true
+2016-02-08 18:51:31 INFO  SchemaUpdate:105 - HHH000228: Running hbm2ddl schema update
+2016-02-08 18:51:31 INFO  QueryTranslatorFactoryInitiator:47 - HHH000397: Using ASTQueryTranslatorFactory
+2016-02-08 18:51:32 INFO  connections:235 - HHH10001008: Cleaning up connection pool [jdbc:postgresql://localhost:5432/GEST_BD_Personne]

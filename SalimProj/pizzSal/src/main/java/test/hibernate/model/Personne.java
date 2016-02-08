@@ -12,9 +12,9 @@ public class Personne {
 		super();
 	}
 
-	public Personne(int id, String nom, String prenom, String tel, String email) {
-		super();
-		this.id = id;
+	public Personne( String nom, String prenom, String tel, String email) {
+//		super();
+//		this.id = id;
 		this.nom = nom;
 		this.prenom = prenom;
 		this.tel = tel;

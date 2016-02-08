@@ -5872,6 +5872,7 @@ org.eclipse.core.runtime.OperationCanceledException
 !ENTRY org.eclipse.m2e.logback.appender 2 0 2016-02-08 03:07:10.521
 !MESSAGE Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
 <<<<<<< HEAD
+<<<<<<< HEAD
 !SESSION 2016-02-08 03:15:02.431 -----------------------------------------------
 eclipse.buildId=4.5.1.M20150904-0015
 java.version=1.8.0_65
@@ -6864,3 +6865,5 @@ Caused by: org.eclipse.core.internal.dtree.ObjectNotFoundException: Tree element
 	at java.security.AccessController.doPrivileged(Native Method)
 	at org.eclipse.osgi.internal.framework.BundleContextImpl.startActivator(BundleContextImpl.java:764)
 	... 29 more
+=======
+>>>>>>> mahmoud

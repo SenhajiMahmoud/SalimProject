@@ -1,0 +1,16 @@
+package test.hibernate.manager;
+
+import org.hibernate.Session;
+
+import test.hibernate.util.HibernateUtil;
+
+public class PersonneManager {
+	
+	
+	public void ajout(String nom, String prenom, String tel, String email) {
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		
+	}
+	
+	
+}

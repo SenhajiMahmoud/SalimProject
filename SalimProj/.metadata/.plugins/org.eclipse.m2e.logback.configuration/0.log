@@ -1613,8 +1613,11 @@ Caused by: org.eclipse.core.runtime.CoreException: One or more constraints have 
 2016-02-07 23:03:13,868 [Worker-6] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
 2016-02-07 23:03:13,875 [Worker-6] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Mahmoud\Desktop\Salim_Pizz\SalimProj\pizzSal\src\test\resources
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> mahmoud
 =======
+=======
+>>>>>>> mahmoud
 2016-02-07 23:06:51,356 [Worker-12] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
 2016-02-07 23:06:51,390 [Worker-12] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
 2016-02-07 23:06:51,421 [Worker-12] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
@@ -2413,4 +2416,7 @@ Caused by: org.eclipse.core.runtime.CoreException: One or more constraints have 
 2016-02-08 03:07:10,506 [Worker-109] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 2 resources
 2016-02-08 03:07:10,519 [Worker-109] WARN  o.e.m.c.i.embedder.EclipseLogger - Using platform encoding (Cp1252 actually) to copy filtered resources, i.e. build is platform dependent!
 2016-02-08 03:07:10,525 [Worker-109] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Mahmoud\Desktop\Salim_Pizz\SalimProj\pizzSal\src\test\resources
+<<<<<<< HEAD
+>>>>>>> mahmoud
+=======
 >>>>>>> mahmoud

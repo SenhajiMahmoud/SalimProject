@@ -1,8 +1,7 @@
 package test.hibernate.model;
 
 public class Personne {
-<<<<<<< HEAD
-=======
+
 	private int id;
 	private String nom;
 	private String prenom;
@@ -66,6 +65,6 @@ public class Personne {
 	public String toString() {
 		return "Personne [id=" + id + ", nom=" + nom + ", prenom=" + prenom + ", tel=" + tel + ", Email=" + Email + "]";
 	}
->>>>>>> mahmoud
+
 
 }

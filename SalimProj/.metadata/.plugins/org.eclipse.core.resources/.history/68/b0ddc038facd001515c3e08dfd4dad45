@@ -1,5 +1,0 @@
-package test.hibernate.manager;
-
-public class PersonneManager {
-
-}

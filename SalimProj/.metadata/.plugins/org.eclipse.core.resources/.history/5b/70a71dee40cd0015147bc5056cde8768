@@ -1,7 +1,0 @@
-package com.salim.web.business;
-
-public interface ProduitService {
-	public int add(Produit p);
-	public Produit get(String ref);
-	public List<Produit> list();
-}

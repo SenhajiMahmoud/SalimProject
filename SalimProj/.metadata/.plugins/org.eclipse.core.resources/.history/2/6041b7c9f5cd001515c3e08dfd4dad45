@@ -1,5 +1,0 @@
-package test.hibernate.util;
-
-public class HibernateUtil {
-
-}

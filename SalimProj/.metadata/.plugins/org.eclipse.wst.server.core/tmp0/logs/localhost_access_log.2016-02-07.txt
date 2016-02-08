@@ -1,9 +1,0 @@
-127.0.0.1 - - [07/Feb/2016:14:20:21 +0100] "GET / HTTP/1.1" 404 1005
-0:0:0:0:0:0:0:1 - - [07/Feb/2016:14:20:29 +0100] "GET /pizzSal/index.jsp HTTP/1.1" 200 86
-0:0:0:0:0:0:0:1 - - [07/Feb/2016:14:20:31 +0100] "GET /pizzSal/nouveauProduit.html HTTP/1.1" 200 627
-0:0:0:0:0:0:0:1 - - [07/Feb/2016:14:21:44 +0100] "GET /pizzSal/ProduitAjouter.do?ref=C04&desig=za&pu=65&qs=456 HTTP/1.1" 200 295
-0:0:0:0:0:0:0:1 - - [07/Feb/2016:14:22:20 +0100] "GET /pizzSal/nouveauProduit.html HTTP/1.1" 304 -
-0:0:0:0:0:0:0:1 - - [07/Feb/2016:14:22:22 +0100] "GET /pizzSal/index.jsp HTTP/1.1" 200 86
-0:0:0:0:0:0:0:1 - - [07/Feb/2016:14:22:37 +0100] "GET /pizzSal/ProduitAjouter.do?ref=C06&desig=Clavier&pu=10&qs=2 HTTP/1.1" 500 7450
-0:0:0:0:0:0:0:1 - - [07/Feb/2016:14:24:55 +0100] "GET /pizzSal/ProduitAjouter.do?ref=C06&desig=Clavier&pu=10&qs=2 HTTP/1.1" 200 709
-0:0:0:0:0:0:0:1 - - [07/Feb/2016:14:25:06 +0100] "GET /pizzSal/ProduitAjouter.do?ref=C07&desig=Clavier&pu=10&qs=2 HTTP/1.1" 200 806

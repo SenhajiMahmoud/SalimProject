@@ -1,0 +1,7 @@
+package test.hibernate.manager;
+
+public class PersonneManager {
+	public void ajout(String nom,String nom,String prenom,String tel,String email){
+		
+	}
+}

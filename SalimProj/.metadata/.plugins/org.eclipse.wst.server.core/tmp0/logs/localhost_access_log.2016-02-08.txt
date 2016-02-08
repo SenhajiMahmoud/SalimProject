@@ -1,0 +1,2 @@
+127.0.0.1 - - [08/Feb/2016:01:33:47 +0100] "GET / HTTP/1.1" 404 1005
+0:0:0:0:0:0:0:1 - - [08/Feb/2016:01:34:44 +0100] "GET /pizzSal/WEB-INF/classes/test/hibernate/test/TestMain.java HTTP/1.1" 404 1003

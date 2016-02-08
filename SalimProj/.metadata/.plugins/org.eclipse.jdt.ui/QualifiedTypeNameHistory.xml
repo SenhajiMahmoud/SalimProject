@@ -15,4 +15,11 @@
 <fullyQualifiedTypeName name="org.springframework.context.support.ClassPathXmlApplicationContext"/>
 <fullyQualifiedTypeName name="javax.annotation.Resource"/>
 <fullyQualifiedTypeName name="org.springframework.beans.factory.annotation.Autowired"/>
+<fullyQualifiedTypeName name="org.hibernate.cfg.Configuration"/>
+<fullyQualifiedTypeName name="java.lang.ExceptionInInitializerError"/>
+<fullyQualifiedTypeName name="org.hibernate.SessionFactory"/>
+<fullyQualifiedTypeName name="org.hibernate.Session"/>
+<fullyQualifiedTypeName name="test.hibernate.model.Personne"/>
+<fullyQualifiedTypeName name="test.hibernate.manager.PersonneManager"/>
+<fullyQualifiedTypeName name="test.hibernate.util.HibernateUtil"/>
 </qualifiedTypeNameHistroy>

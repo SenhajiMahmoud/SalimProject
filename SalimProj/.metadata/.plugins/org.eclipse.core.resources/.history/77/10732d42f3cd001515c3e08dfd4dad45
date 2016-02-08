@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC
+      "-//Hibernate/Hibernate configuration DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+          
+          
+<hibernate-configuration>
+	<session-factory>
+		<property name="connection.driver_class">org.postgresql.Driver</property>
+		<property name="connection.url">jdbc:postgresql://localhost:5432/GEST_BD_Personne</property>
+		<property name="connection.username">postgres</property>
+		<property name="connection.password">mpos1234</property>
+		<property name="connection.driver_class"></property>
+		<property name="connection.driver_class"></property>
+		<property name="connection.driver_class"></property>
+		<property name="connection.driver_class"></property>
+		<property name="connection.driver_class"></property>
+		<property name="connection.driver_class"></property>
+		
+		
+		#HIBERNATE properties
+hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+	</session-factory>
+</hibernate-configuration>
